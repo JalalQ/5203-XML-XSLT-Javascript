@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Work completed by Jalaluddin Qureshi, HTTP 5203, Humber College, Winter 2021.
+	This work was completed individually -->
+	
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Locations" >
+		<xs:complexType>
+			<xs:sequence>
+			
+				<xs:element name="Location" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+						
+							<xs:element name="LocationID" type="xs:nonNegativeInteger" />
+							
+							<!--LocationName contains special characters such as ".", "-", "'", 
+							"&amp;" (locationID 344) and "/". As it can potentially contain other
+							character, it is not practical to use custom data type for LocationName.-->
+							<xs:element name="LocationName" type="xs:string" />
+							<xs:element name="Address" type="xs:string" />
+							
+							<!--For location ID 1034 there is no postcode -->
+							<xs:element name="PostalCode" type="postcode" minOccurs="0" />
+						
+							<xs:element name="PhoneNumber" type="phone" minOccurs="0" />
+							
+							<xs:element name="Facilities" >
+								<xs:complexType>
+									<xs:sequence>
+									
+									
+										<xs:element name="Facility" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="FacilityID" type="facilityid" />
+													<xs:element name="FacilityType" type="facilitydisplay" />
+													<xs:element name="FacilityName" type="xs:string" minOccurs="0" />
+													<xs:element name="FacilityDisplayName" type="facilitydisplay" />
+								
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									
+									
+								</xs:complexType>
+							</xs:element>
+							
+							<xs:element name="Intersections" minOccurs="0" >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Intersection" type="xs:string" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+				
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Custom Data Types -->
+	<!--All regex have also been validated on https://www.regextester.com -->
+	
+	<!-- Canadian Postcode Regex-->
+	<xs:simpleType name="postcode">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(^[a-zA-Z]\d[a-zA-Z]\s\d[a-zA-Z]\d)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Phone number contain number, space and "-" -->
+	<xs:simpleType name="phone">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([\d\s-]+)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- Facility ID contain alphabet, number, space and "-" -->
+	<xs:simpleType name="facilityid">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([\w\s-]+)"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- FacilityType and FacilityDisplayName contain alphabet, "/" and "-" -->
+	<xs:simpleType name="facilitydisplay">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([a-zA-Z\s-/]+)"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
